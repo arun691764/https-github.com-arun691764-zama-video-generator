@@ -1,0 +1,29 @@
+name: Zama Auto Video Generator
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Install Python deps
+        run: pip install -r requirements.txt
+
+      - name: Generate Video
+        run: python zama_auto_video.py
+
+      - name: Upload Video
+        uses: actions/upload-artifact@v4
+        with:
+          name: zama-video
+          path: zama_video.mp4
